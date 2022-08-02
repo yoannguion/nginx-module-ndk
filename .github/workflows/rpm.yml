@@ -1,0 +1,50 @@
+  # Controls when the action will run. Triggers the workflow on push or pull request
+  # events but only for the master branch
+  on:
+    push:
+      branches: [ '**' ]
+  # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+  jobs:
+    # This workflow contains a single job called "build"
+    build_el8:
+      # The type of runner that the job will run on
+      runs-on: ubuntu-latest
+
+      # Steps represent a sequence of tasks that will be executed as part of the job
+      steps:
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+        - uses: actions/checkout@v2
+        - name: build rpm el8
+          env:
+            SPEC_FILE: nginx-module-ndk.spec
+            RELEASE_TAG: v0.3.1
+            RELEASE_GITHUB_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
+          uses: docker://yoannguion/rpmbuilder:el8-release-to-github
+    build_el9:
+      # The type of runner that the job will run on
+      runs-on: ubuntu-latest
+
+      # Steps represent a sequence of tasks that will be executed as part of the job
+      steps:
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+        - uses: actions/checkout@v2
+        - name: build rpm el9
+          env:
+            SPEC_FILE: nginx-module-ndk.spec
+            RELEASE_TAG: v0.3.1
+            RELEASE_GITHUB_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
+          uses: docker://yoannguion/rpmbuilder:el9-release-to-github
+    build_el7:
+      # The type of runner that the job will run on
+      runs-on: ubuntu-latest
+
+      # Steps represent a sequence of tasks that will be executed as part of the job
+      steps:
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+        - uses: actions/checkout@v2
+        - name: build rpm el7
+          env:
+            SPEC_FILE: nginx-module-ndk.spec
+            RELEASE_TAG: v0.3.1
+            RELEASE_GITHUB_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
+          uses: docker://yoannguion/rpmbuilder:el7-release-to-github
